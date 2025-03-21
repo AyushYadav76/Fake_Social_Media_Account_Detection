@@ -1,0 +1,4 @@
+import joblib
+
+# Load the model from the file
+model = joblib.load('fake_account_detection_model.pkl')
