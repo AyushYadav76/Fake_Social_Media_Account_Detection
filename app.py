@@ -25,7 +25,7 @@ FEATURES = [
 ]
 
 # Root route (optional)
-@app.route('/',Methods=['POST'])
+@app.route('/')
 def home():
     return "Welcome to the Fake Social Media Account Detection API!"
 
