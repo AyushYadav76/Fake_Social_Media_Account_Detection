@@ -24,10 +24,10 @@ FEATURES = [
     'account_creation_year'
 ]
 
-# # Root route (optional)
-# @app.route('/',Methods=['POST'])
-# def home():
-#     return "Welcome to the Fake Social Media Account Detection API!"
+# Root route (optional)
+@app.route('/',Methods=['POST'])
+def home():
+    return "Welcome to the Fake Social Media Account Detection API!"
 
 # Define the prediction endpoint
 @app.route('/predict', methods=['POST'])
