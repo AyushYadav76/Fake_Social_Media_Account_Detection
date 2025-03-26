@@ -12,7 +12,6 @@ model = joblib.load('best_model.pkl')
 FEATURES = [
     'account_age', 
     'bio_length',
-    
     'profile_picture_present', 
     'default_profile_image',
     'average_posts_per_day', 
@@ -25,10 +24,10 @@ FEATURES = [
     'account_creation_year'
 ]
 
-# Root route (optional)
-@app.route('/')
-def home():
-    return "Welcome to the Fake Social Media Account Detection API!"
+# # Root route (optional)
+# @app.route('/',Methods=['POST'])
+# def home():
+#     return "Welcome to the Fake Social Media Account Detection API!"
 
 # Define the prediction endpoint
 @app.route('/predict', methods=['POST'])
