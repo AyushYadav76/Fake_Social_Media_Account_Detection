@@ -6,22 +6,13 @@ import pandas as pd
 app = Flask(__name__)
 
 # Load the trained model
-model = joblib.load('best_model.pkl')
+model = joblib.load('model.pkl')
 
 # Define feature names
 FEATURES = [
-    'account_age', 
-    'bio_length',
-    'profile_picture_present', 
-    'default_profile_image',
-    'average_posts_per_day', 
-    'retweet_to_like_ratio', 
-    'engagement_rate',
-    'peak_activity_hour',
-    'clustering_coefficient',
-    'mutual_connection_ratio',
-    'spam_score',
-    'account_creation_year'
+    'account_age', 'bio_length', 'profile_picture_present', 'default_profile_image',
+    'average_posts_per_day', 'peak_activity_hour', 'account_creation_year',
+    'friends_to_followers_ratio','spam_score'
 ]
 
 # # Root route (optional)
