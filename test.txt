@@ -1,0 +1,14 @@
+
+curl -X POST http://127.0.0.1:5000/predict ^
+-H "Content-Type: application/json" ^
+-d '{
+    \"created_at\": \"Sat Aug 11 08:52:17 +0000 2012\",
+    \"description\": \"Tu mi rubi l'anima e poi la getti via da te...\",
+    \"statuses_count\": 1005,
+    \"followers_count\": 147,
+    \"friends_count\": 283,
+    \"duplicate_posts\": 0,
+    \"total_posts\": 6765,
+    \"default_profile_image\": 0,
+    \"hour_of_day\": 10
+}'

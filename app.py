@@ -34,8 +34,10 @@ def preprocess_user_input(user_input):
     X = df[features]
 
     # Scale the features using StandardScaler
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
+    # Load the trained scaler
+    scaler = joblib.load('scaler(1).pkl')  # Load the pre-fitted scaler
+    X_scaled = scaler.transform(X)  # Use transform, not fit_transform
+
 
     return X_scaled
 
@@ -65,7 +67,7 @@ def predict_fake_account(user_input):
 
 from flask import Flask, request, render_template, jsonify
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__)
 
 @app.route('/')
 def home():
@@ -76,13 +78,10 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    """
-    Handles POST requests to predict whether an account is fake.
-    """
     try:
         # Get user input from the form
         user_input = {
-            'created_at': request.form['created_at'],  # Example: "2012-06-23"
+            'created_at': request.form['created_at'],
             'description': request.form['description'],
             'statuses_count': int(request.form['statuses_count']),
             'followers_count': int(request.form['followers_count']),
@@ -90,10 +89,10 @@ def predict():
             'duplicate_posts': int(request.form['duplicate_posts']),
             'total_posts': int(request.form['total_posts']),
             'default_profile_image': int(request.form['default_profile_image']),
-            'hour_of_day': int(request.form['hour_of_day'])  # Peak activity hour
+            'hour_of_day': int(request.form['hour_of_day'])
         }
 
-        # Use the predict_fake_account function to get the prediction
+        # Preprocess the input and make a prediction
         result = predict_fake_account(user_input)
 
         # Return the result as JSON
