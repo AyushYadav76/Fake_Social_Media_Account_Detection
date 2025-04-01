@@ -34,7 +34,7 @@ def preprocess_user_input(user_input):
 
     # Scale the features using StandardScaler
     # Load the trained scaler
-    scaler = joblib.load('scaler(1).pkl')  # Load the pre-fitted scaler
+    scaler = joblib.load('scaler (1).pkl')  # Load the pre-fitted scaler
     X_scaled = scaler.transform(X)  # Use transform, not fit_transform
 
 
