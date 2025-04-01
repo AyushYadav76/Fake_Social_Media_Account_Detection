@@ -23,12 +23,11 @@ def preprocess_user_input(user_input):
     df['bio_length'] = df['description'].apply(lambda x: len(str(x)))
     df['profile_picture_present'] = df['default_profile_image'].apply(lambda x: 0 if x == 1 else 1)
     df['average_posts_per_day'] = df['statuses_count'] / (df['account_age'] + 1)
+    df['peak_activity_hour'] = df['hour_of_day']  # Assuming this is provided in user input
+    df['account_creation_year'] = pd.to_datetime(df['created_at']).dt.year
     df['friends_to_followers_ratio'] = df['friends_count'] / (df['followers_count'] + 1)
     df['spam_score'] = df['duplicate_posts'] / (df['total_posts'] + 1)
 
-    # Extract additional features
-    df['account_creation_year'] = pd.to_datetime(df['created_at']).dt.year
-    df['peak_activity_hour'] = df['hour_of_day']  # Assuming this is provided in user input
 
     # Select only the required features
     X = df[features]
