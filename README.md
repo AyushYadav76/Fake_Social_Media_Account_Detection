@@ -40,7 +40,7 @@ Prerequisites
 •	Git
 Steps:
 1.	Clone the repository
-i)	git clone https://github.com/your-username/fake-social-media-account-detection.git
+i)	git clone : https://github.com/AyushYadav76/Fake_Social_Media_Account_Detection
 ii)	cd fake-social-media-account-detection
 2)	Install dependencies
 i)	pip install -r requirements.txt
