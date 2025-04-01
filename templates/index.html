@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fake Social Media Account Detection</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Fake Social Media Account Detector</h1>
+    <p>Enter details about a social media account to check if it's fake or real.</p>
+
+    <form id="prediction-form">
+      <!-- Input Fields -->
+      <div class="input-group">
+        <label for="account_age">Account Age (days):</label>
+        <input type="number" id="account_age" name="account_age" required>
+      </div>
+
+      <div class="input-group">
+        <label for="bio_length">Bio Length (characters):</label>
+        <input type="number" id="bio_length" name="bio_length" required>
+      </div>
+
+      <div class="input-group">
+        <label for="profile_picture_present">Profile Picture Present:</label>
+        <select id="profile_picture_present" name="profile_picture_present" required>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="default_profile_image">Default Profile Image:</label>
+        <select id="default_profile_image" name="default_profile_image" required>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="average_posts_per_day">Average Posts Per Day:</label>
+        <input type="number" step="0.01" id="average_posts_per_day" name="average_posts_per_day" required>
+      </div>
+
+      <div class="input-group">
+        <label for="peak_activity_hour">Peak Activity Hour (0-23):</label>
+        <input type="number" id="peak_activity_hour" name="peak_activity_hour" min="0" max="23" required>
+      </div>
+
+      <div class="input-group">
+        <label for="account_creation_year">Account Creation Year:</label>
+        <input type="number" id="account_creation_year" name="account_creation_year" required>
+      </div>
+
+      <div class="input-group">
+        <label for="friends_to_followers_ratio">Friends-to-Followers Ratio:</label>
+        <input type="number" step="0.01" id="friends_to_followers_ratio" name="friends_to_followers_ratio" required>
+      </div>
+
+      <div class="input-group">
+        <label for="spam_score">Spam Score:</label>
+        <input type="number" step="0.01" id="spam_score" name="spam_score" required>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" id="predict-button">Predict</button>
+    </form>
+
+    <!-- Result Section -->
+    <div id="result" class="result"></div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

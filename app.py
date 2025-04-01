@@ -65,14 +65,14 @@ def predict_fake_account(user_input):
 
 from flask import Flask, request, render_template, jsonify
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 @app.route('/')
 def home():
     """
     Renders the homepage with a form for user input.
     """
-    return render_template('socialAnalyist.html')
+    return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
