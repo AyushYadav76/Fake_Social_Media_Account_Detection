@@ -1,51 +1,106 @@
-from flask import Flask, request, jsonify
-import joblib
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
 
-# Initialize Flask app
-app = Flask(__name__)
+# Define a function to preprocess user input
+def preprocess_user_input(user_input):
+    """
+    Converts raw user input into the format required by the model.
+    :param user_input: Dictionary containing user-provided data.
+    :return: Processed feature vector.
+    """
+    # Define the features expected by the model
+    features = [
+        'account_age', 'bio_length', 'profile_picture_present', 'default_profile_image',
+        'average_posts_per_day', 'peak_activity_hour', 'account_creation_year',
+        'friends_to_followers_ratio', 'spam_score'
+    ]
+
+    # Create a DataFrame from the user input
+    df = pd.DataFrame([user_input])
+
+    # Add derived features
+    df['account_age'] = (pd.Timestamp('2015-02-14') - pd.to_datetime(df['created_at'])).dt.days
+    df['bio_length'] = df['description'].apply(lambda x: len(str(x)))
+    df['profile_picture_present'] = df['default_profile_image'].apply(lambda x: 0 if x == 1 else 1)
+    df['average_posts_per_day'] = df['statuses_count'] / (df['account_age'] + 1)
+    df['friends_to_followers_ratio'] = df['friends_count'] / (df['followers_count'] + 1)
+    df['spam_score'] = df['duplicate_posts'] / (df['total_posts'] + 1)
+
+    # Extract additional features
+    df['account_creation_year'] = pd.to_datetime(df['created_at']).dt.year
+    df['peak_activity_hour'] = df['hour_of_day']  # Assuming this is provided in user input
+
+    # Select only the required features
+    X = df[features]
+
+    # Scale the features using StandardScaler
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+
+    return X_scaled
+
+import joblib
 
 # Load the trained model
 model = joblib.load('model.pkl')
 
-# Define feature names
-FEATURES = [
-    'account_age', 'bio_length', 'profile_picture_present', 'default_profile_image',
-    'average_posts_per_day', 'peak_activity_hour', 'account_creation_year',
-    'friends_to_followers_ratio','spam_score'
-]
+def predict_fake_account(user_input):
+    """
+    Predicts whether an account is fake or not based on user input.
+    :param user_input: Dictionary containing user-provided data.
+    :return: Prediction result (0 for real, 1 for fake).
+    """
+    # Preprocess the user input
+    X_scaled = preprocess_user_input(user_input)
+    
+    # Make a prediction using the trained model
+    prediction = model.predict(X_scaled)
+    probability = model.predict_proba(X_scaled)[0][1]  # Probability of being fake
+    
+    return {
+        'prediction': int(prediction[0]),
+        'probability': float(probability)
+    }
 
-# # Root route (optional)
-# @app.route('/')
-# def home():
-#     return "Welcome to the Fake Social Media Account Detection API!"
 
-# Define the prediction endpoint
+from flask import Flask, request, render_template, jsonify
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    """
+    Renders the homepage with a form for user input.
+    """
+    return render_template('socialAnalyist.html')
+
 @app.route('/predict', methods=['POST'])
 def predict():
+    """
+    Handles POST requests to predict whether an account is fake.
+    """
     try:
-        # Get JSON data from the request
-        input_data = request.json
-        
-        # Convert input data to DataFrame
-        input_df = pd.DataFrame([input_data])
-        
-        # Ensure the columns match the training features
-        input_df = input_df.reindex(columns=FEATURES, fill_value=0)
-        
-        # Make predictions
-        prediction = model.predict(input_df)[0]
-        probability = model.predict_proba(input_df)[0][1]  # Probability of being fake
-        
-        # Return the result as JSON
-        return jsonify({
-            'prediction': int(prediction),
-            'probability': float(probability)
-        })
-    
-    except Exception as e:
-        return jsonify({'error': str(e)}), 400
+        # Get user input from the form
+        user_input = {
+            'created_at': request.form['created_at'],  # Example: "2012-06-23"
+            'description': request.form['description'],
+            'statuses_count': int(request.form['statuses_count']),
+            'followers_count': int(request.form['followers_count']),
+            'friends_count': int(request.form['friends_count']),
+            'duplicate_posts': int(request.form['duplicate_posts']),
+            'total_posts': int(request.form['total_posts']),
+            'default_profile_image': int(request.form['default_profile_image']),
+            'hour_of_day': int(request.form['hour_of_day'])  # Peak activity hour
+        }
 
-# Run the app
+        # Use the predict_fake_account function to get the prediction
+        result = predict_fake_account(user_input)
+
+        # Return the result as JSON
+        return jsonify(result)
+
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True)
