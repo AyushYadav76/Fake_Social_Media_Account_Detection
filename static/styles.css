@@ -87,7 +87,7 @@
   }
   
   .result.success {
-    color: #4caf50;
+    color: hwb(120 95% 4%);
   }
   
   .result.error {
