@@ -66,7 +66,7 @@ def predict_fake_account(user_input):
 
 from flask import Flask, request, render_template, jsonify
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 @app.route('/')
 def home():
