@@ -34,7 +34,7 @@ def preprocess_user_input(user_input):
 
     # Scale the features using StandardScaler
     # Load the trained scaler
-    scaler = joblib.load('scaler (1).pkl')  # Load the pre-fitted scaler
+    scaler = joblib.load('i4_scaler.pkl')  # Load the pre-fitted scaler
     X_scaled = scaler.transform(X)  # Use transform, not fit_transform
 
 
@@ -43,7 +43,7 @@ def preprocess_user_input(user_input):
 import joblib
 
 # Load the trained model
-model = joblib.load('model.pkl')
+model = joblib.load('i4_model.pkl')
 
 def predict_fake_account(user_input):
     """
