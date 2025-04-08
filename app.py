@@ -19,7 +19,7 @@ def preprocess_user_input(user_input):
     df = pd.DataFrame([user_input])
 
     # Add derived features
-    df['account_age'] = (pd.Timestamp('2015-02-14') - pd.to_datetime(df['created_at'])).dt.days
+    df['account_age'] = (pd.Timestamp.now() - pd.to_datetime(df['created_at'])).dt.days
     df['bio_length'] = df['description'].apply(lambda x: len(str(x)))
     df['profile_picture_present'] = df['default_profile_image'].apply(lambda x: 0 if x == 1 else 1)
     df['average_posts_per_day'] = df['statuses_count'] / (df['account_age'] + 1)
