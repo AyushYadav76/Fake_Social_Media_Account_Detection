@@ -11,8 +11,8 @@ def preprocess_user_input(user_input):
     # Define the features expected by the model
     features = [
         'account_age', 'bio_length', 'profile_picture_present', 'default_profile_image',
-        'engagement_rate', 'peak_activity_hour', 'account_creation_year',
-        'friends_to_followers_ratio', 'spam_score'
+         'peak_activity_hour', 'account_creation_year',
+        'friends_to_followers_ratio', 'spam_score','engagement_rate'
     ]
 
     # Create a DataFrame from the user input
@@ -34,7 +34,7 @@ def preprocess_user_input(user_input):
 
     # Scale the features using StandardScaler
     # Load the trained scaler
-    scaler = joblib.load('main_scaler.pkl')  # Load the pre-fitted scaler
+    scaler = joblib.load('main_scaler2.pkl')  # Load the pre-fitted scaler
     X_scaled = scaler.transform(X)  # Use transform, not fit_transform
 
 
@@ -43,7 +43,7 @@ def preprocess_user_input(user_input):
 import joblib
 
 # Load the trained model
-model = joblib.load('main_model.pkl')
+model = joblib.load('main_model2.pkl')
 
 def predict_fake_account(user_input):
     """

@@ -3,78 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fake Social Media Account Detection</title>
+  <title>Fake Account Detection</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-  <div class="container">
-    <h1>Fake Social Media Account Detector</h1>
-    <p>Enter details about a social media account to check if it's fake or real.</p>
+  <main class="container">
+    <header>
+      <h1>🕵️ Fake Account Detector</h1>
+      <p>Enter social media account details to detect fake profiles.</p>
+    </header>
 
     <form id="prediction-form">
-      <!-- Input Fields -->
-      <div class="input-group">
-        <label for="created_at">Account Creation Date (YYYY-MM-DD):</label>
-        <input type="date" id="created_at" name="created_at" required>
-      </div>
+      <section class="form-section">
+        <div class="input-group">
+          <label for="created_at">Account Creation Date:</label>
+          <input type="date" id="created_at" name="created_at" required>
+        </div>
 
-      <div class="input-group">
-        <label for="description">Bio Description:</label>
-        <textarea id="description" name="description" required></textarea>
-      </div>
+        <div class="input-group">
+          <label for="description">Bio Description:</label>
+          <textarea id="description" name="description" required></textarea>
+        </div>
 
-      <div class="input-group">
-        <label for="followers_count">Followers Count:</label>
-        <input type="number" id="followers_count" name="followers_count" required>
-      </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="followers_count">Followers:</label>
+            <input type="number" id="followers_count" name="followers_count" required>
+          </div>
 
-      <div class="input-group">
-        <label for="friends_count">Friends/Following Count:</label>
-        <input type="number" id="friends_count" name="friends_count" required>
-      </div>
+          <div class="input-group">
+            <label for="friends_count">Following:</label>
+            <input type="number" id="friends_count" name="friends_count" required>
+          </div>
+        </div>
 
-      <div class="input-group">
-        <label for="duplicate_posts">Duplicate Posts:</label>
-        <input type="number" id="duplicate_posts" name="duplicate_posts" required>
-      </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="duplicate_posts">Duplicate Posts:</label>
+            <input type="number" id="duplicate_posts" name="duplicate_posts" required>
+          </div>
 
-      <div class="input-group">
-        <label for="total_posts">Total Posts:</label>
-        <input type="number" id="total_posts" name="total_posts" required>
-      </div>
+          <div class="input-group">
+            <label for="total_posts">Total Posts:</label>
+            <input type="number" id="total_posts" name="total_posts" required>
+          </div>
+        </div>
 
-      <div class="input-group">
-        <label for="likes">Last 20 post's Likes</label>
-        <input type="number" id="likes" name="likes" required>
-      </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="likes">Last 20 Post's Likes:</label>
+            <input type="number" id="likes" name="likes" required>
+          </div>
 
-      <div class="input-group">
-        <label for="retweets">Last 20 post's Comments</label>
-        <input type="number" id="retweets" name="retweets" required>
-      </div>
+          <div class="input-group">
+            <label for="retweets">Last 20 Post's Comment:</label>
+            <input type="number" id="retweets" name="retweets" required>
+          </div>
+        </div>
 
-      <div class="input-group">
-        <label for="default_profile_image">Default Profile Image:</label>
-        <select id="default_profile_image" name="default_profile_image" required>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
-        </select>
-      </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="default_profile_image">Default Profile Image:</label>
+            <select id="default_profile_image" name="default_profile_image" required>
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </div>
 
-      <div class="input-group">
-        <label for="hour_of_day">Peak Activity Hour (0-23):</label>
-        <input type="number" id="hour_of_day" name="hour_of_day" min="0" max="23" required>
-      </div>
+          <div class="input-group">
+            <label for="hour_of_day">Peak Activity Hour (0-23):</label>
+            <input type="number" id="hour_of_day" name="hour_of_day" min="0" max="23" required>
+          </div>
+        </div>
+      </section>
 
-      <!-- Submit Button -->
-      <button type="submit" id="predict-button">Predict</button>
+      <button type="submit" id="predict-button">🔍 Predict</button>
     </form>
 
-    <!-- Result Section -->
-    <div id="result" class="result"></div>
-  </div>
+    <section id="result" class="result"></section>
+  </main>
 
-  <!-- JavaScript -->
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
