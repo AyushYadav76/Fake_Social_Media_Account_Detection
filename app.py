@@ -11,7 +11,7 @@ def preprocess_user_input(user_input):
     # Define the features expected by the model
     features = [
         'account_age', 'bio_length', 'profile_picture_present', 'default_profile_image',
-        'average_posts_per_day', 'peak_activity_hour', 'account_creation_year',
+        'engagement_rate', 'peak_activity_hour', 'account_creation_year',
         'friends_to_followers_ratio', 'spam_score'
     ]
 
@@ -22,11 +22,11 @@ def preprocess_user_input(user_input):
     df['account_age'] = (pd.Timestamp.now() - pd.to_datetime(df['created_at'])).dt.days
     df['bio_length'] = df['description'].apply(lambda x: len(str(x)))
     df['profile_picture_present'] = df['default_profile_image'].apply(lambda x: 0 if x == 1 else 1)
-    df['average_posts_per_day'] = df['statuses_count'] / (df['account_age'] + 1)
     df['peak_activity_hour'] = df['hour_of_day']  # Assuming this is provided in user input
     df['account_creation_year'] = pd.to_datetime(df['created_at']).dt.year
     df['friends_to_followers_ratio'] = df['friends_count'] / (df['followers_count'] + 1)
     df['spam_score'] = df['duplicate_posts'] / (df['total_posts'] + 1)
+    df['engagement_rate'] = (df['likes'] + df['retweets']) / (df['total_posts'] + 1)
 
 
     # Select only the required features
@@ -34,7 +34,7 @@ def preprocess_user_input(user_input):
 
     # Scale the features using StandardScaler
     # Load the trained scaler
-    scaler = joblib.load('i4_scaler.pkl')  # Load the pre-fitted scaler
+    scaler = joblib.load('main_scaler.pkl')  # Load the pre-fitted scaler
     X_scaled = scaler.transform(X)  # Use transform, not fit_transform
 
 
@@ -43,7 +43,7 @@ def preprocess_user_input(user_input):
 import joblib
 
 # Load the trained model
-model = joblib.load('i4_model.pkl')
+model = joblib.load('main_model.pkl')
 
 def predict_fake_account(user_input):
     """
@@ -82,13 +82,14 @@ def predict():
         user_input = {
             'created_at': request.form['created_at'],
             'description': request.form['description'],
-            'statuses_count': int(request.form['statuses_count']),
             'followers_count': int(request.form['followers_count']),
             'friends_count': int(request.form['friends_count']),
             'duplicate_posts': int(request.form['duplicate_posts']),
             'total_posts': int(request.form['total_posts']),
             'default_profile_image': int(request.form['default_profile_image']),
-            'hour_of_day': int(request.form['hour_of_day'])
+            'hour_of_day': int(request.form['hour_of_day']),
+            'likes': int(request.form['likes']),
+            'retweets': int(request.form['retweets'])
         }
 
         # Preprocess the input and make a prediction

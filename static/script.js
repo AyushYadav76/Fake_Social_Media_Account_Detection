@@ -7,7 +7,7 @@ document.getElementById('prediction-form').addEventListener('submit', async (eve
 
   button.disabled = true;
   button.textContent = 'Predicting...';
-  resultDiv.innerHTML = '<p>🔄 Processing...</p>';
+  resultDiv.innerHTML = '⏳ Analyzing...';
 
   try {
     const response = await fetch('/predict', {
@@ -18,7 +18,7 @@ document.getElementById('prediction-form').addEventListener('submit', async (eve
     const result = await response.json();
 
     if (result.error) {
-      resultDiv.innerHTML = `🚫 Error: ${result.error}`;
+      resultDiv.textContent = `🚫 Error: ${result.error}`;
       resultDiv.className = 'result error';
     } else {
       resultDiv.innerHTML = `
@@ -29,10 +29,10 @@ document.getElementById('prediction-form').addEventListener('submit', async (eve
     }
   } catch (error) {
     console.error(error);
-    resultDiv.innerHTML = 'An unexpected error occurred.';
+    resultDiv.textContent = 'An unexpected error occurred.';
     resultDiv.className = 'result error';
   }
 
   button.disabled = false;
-  button.textContent = '🔍 Predict';
+  button.textContent = 'Predict';
 });
